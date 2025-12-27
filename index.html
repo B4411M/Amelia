@@ -494,6 +494,256 @@
         .chat-messages::-webkit-scrollbar-thumb:hover {
             background: #cbd5e1;
         }
+
+        /* Enhanced Message Formatting */
+        .message-content h1, .message-content h2, .message-content h3 {
+            margin: 0 0 8px 0;
+            font-weight: 600;
+        }
+
+        .message-content h1 { font-size: 1.2em; }
+        .message-content h2 { font-size: 1.1em; }
+        .message-content h3 { font-size: 1em; }
+
+        .message-content p {
+            margin: 0 0 8px 0;
+        }
+
+        .message-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        .message-content code {
+            background: rgba(0, 0, 0, 0.1);
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.9em;
+        }
+
+        .message.user .message-content code {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .message-content pre {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 6px;
+            padding: 12px;
+            margin: 8px 0;
+            overflow-x: auto;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.9em;
+            line-height: 1.4;
+        }
+
+        .message.user .message-content pre {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .message-content pre code {
+            background: none;
+            padding: 0;
+        }
+
+        .message-content ul {
+            margin: 8px 0;
+            padding-left: 20px;
+        }
+
+        .message-content li {
+            margin: 4px 0;
+        }
+
+        .message-content blockquote {
+            border-left: 4px solid #667eea;
+            margin: 8px 0;
+            padding: 8px 16px;
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 0 4px 4px 0;
+        }
+
+        .message.user .message-content blockquote {
+            border-left-color: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .message-content a {
+            color: #667eea;
+            text-decoration: underline;
+        }
+
+        .message.user .message-content a {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Search Functionality */
+        .search-container {
+            background: #f8f9fa;
+            border-bottom: 1px solid #e9ecef;
+            padding: 12px 20px;
+            display: none;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .search-container.active {
+            display: flex;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .search-input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.1);
+        }
+
+        .search-button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .search-button:hover {
+            background: #5a67d8;
+        }
+
+        .clear-search {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .clear-search:hover {
+            background: #5a6268;
+        }
+
+        .message.highlighted {
+            background-color: #fff3cd;
+            border-radius: 8px;
+            margin: 4px -8px;
+            padding: 8px;
+        }
+
+        /* Message Actions */
+        .message-actions {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            display: none;
+            gap: 4px;
+        }
+
+        .message:hover .message-actions {
+            display: flex;
+        }
+
+        .action-button {
+            background: rgba(0, 0, 0, 0.1);
+            border: none;
+            border-radius: 4px;
+            padding: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+
+        .action-button:hover {
+            opacity: 1;
+        }
+
+        .message.ai .action-button {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .message.user .action-button {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Keyboard Shortcuts Help */
+        .shortcuts-help {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            max-width: 400px;
+            width: 90%;
+            z-index: 1000;
+            display: none;
+        }
+
+        .shortcuts-help.active {
+            display: block;
+        }
+
+        .shortcuts-help h3 {
+            margin: 0 0 16px 0;
+            color: #1e293b;
+        }
+
+        .shortcut-item {
+            display: flex;
+            justify-content: space-between;
+            margin: 8px 0;
+            padding: 4px 0;
+        }
+
+        .shortcut-key {
+            background: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+            padding: 2px 6px;
+            font-family: monospace;
+            font-size: 12px;
+        }
+
+        /* Reaction Badge */
+        .reaction-badge {
+            position: absolute;
+            bottom: -5px;
+            right: 35px;
+            background: #667eea;
+            color: white;
+            border-radius: 12px;
+            padding: 2px 6px;
+            font-size: 12px;
+            display: none;
+            z-index: 10;
+        }
+
+        /* Search Results */
+        .search-results {
+            position: absolute;
+            top: -25px;
+            right: 20px;
+            background: #1e293b;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            z-index: 100;
+        }
     </style>
 </head>
 <body>
@@ -538,6 +788,13 @@
                         </button>
                     </div>
                 </div>
+            </div>
+
+            <!-- Search Container -->
+            <div class="search-container" id="searchContainer">
+                <input type="text" class="search-input" id="searchInput" placeholder="Search messages...">
+                <button class="search-button" onclick="searchMessages()">Search</button>
+                <button class="clear-search" onclick="clearSearch()">Clear</button>
             </div>
 
             <!-- Chat Messages -->
@@ -586,6 +843,43 @@
         <hr style="border: none; border-top: 1px solid #555; margin: 8px 0;">
         <div id="debugContent">Initializing...</div>
     </div> -->
+
+    <!-- Keyboard Shortcuts Help Modal -->
+    <div class="shortcuts-help" id="shortcutsHelp">
+        <h3>Keyboard Shortcuts</h3>
+        <div class="shortcut-item">
+            <span>Send message</span>
+            <span class="shortcut-key">Ctrl + Enter</span>
+        </div>
+        <div class="shortcut-item">
+            <span>Focus input</span>
+            <span class="shortcut-key">Ctrl + /</span>
+        </div>
+        <div class="shortcut-item">
+            <span>Search chat</span>
+            <span class="shortcut-key">Ctrl + F</span>
+        </div>
+        <div class="shortcut-item">
+            <span>Toggle theme</span>
+            <span class="shortcut-key">Ctrl + T</span>
+        </div>
+        <div class="shortcut-item">
+            <span>Export chat</span>
+            <span class="shortcut-key">Ctrl + E</span>
+        </div>
+        <div class="shortcut-item">
+            <span>Clear chat</span>
+            <span class="shortcut-key">Ctrl + Shift + C</span>
+        </div>
+        <div class="shortcut-item">
+            <span>Edit last message</span>
+            <span class="shortcut-key">Ctrl + ↑</span>
+        </div>
+        <div class="shortcut-item">
+            <span>Show shortcuts</span>
+            <span class="shortcut-key">Ctrl + ?</span>
+        </div>
+    </div>
 
     <!-- Puter.js Library -->
     <script src="https://js.puter.com/v2/"></script>
@@ -728,6 +1022,7 @@
             
             async init() {
                 this.setupEventListeners();
+                this.setupKeyboardShortcuts();
                 await this.initializeAI();
             }
             
@@ -848,6 +1143,7 @@
             addMessage(content, sender) {
                 const messageDiv = document.createElement('div');
                 messageDiv.className = `message ${sender}`;
+                messageDiv.dataset.content = content; // Store original content for search
                 
                 const avatar = document.createElement('div');
                 avatar.className = 'message-avatar';
@@ -855,13 +1151,61 @@
                 
                 const contentDiv = document.createElement('div');
                 contentDiv.className = 'message-content';
-                contentDiv.textContent = content;
+                
+                // Use enhanced formatting
+                contentDiv.innerHTML = this.formatMessage(content);
+                
+                // Add message actions
+                const actionsDiv = document.createElement('div');
+                actionsDiv.className = 'message-actions';
+                
+                const copyButton = document.createElement('button');
+                copyButton.className = 'action-button';
+                copyButton.innerHTML = '📋';
+                copyButton.title = 'Copy message';
+                copyButton.onclick = () => this.copyMessage(content);
+                
+                const reactButton = document.createElement('button');
+                reactButton.className = 'action-button';
+                reactButton.innerHTML = '😊';
+                reactButton.title = 'Add reaction';
+                reactButton.onclick = () => this.addReaction(messageDiv);
+                
+                actionsDiv.appendChild(copyButton);
+                actionsDiv.appendChild(reactButton);
                 
                 messageDiv.appendChild(avatar);
                 messageDiv.appendChild(contentDiv);
+                messageDiv.appendChild(actionsDiv);
                 
                 this.chatMessages.appendChild(messageDiv);
                 this.scrollToBottom();
+            }
+
+            formatMessage(content) {
+                // Enhanced markdown-like formatting with syntax highlighting
+                return content
+                    // Headers
+                    .replace(/^### (.*$)/gim, '<h3>$1</h3>')
+                    .replace(/^## (.*$)/gim, '<h2>$1</h2>')
+                    .replace(/^# (.*$)/gim, '<h1>$1</h1>')
+                    // Bold and italic
+                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                    .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                    // Inline code
+                    .replace(/`(.*?)`/g, '<code class="inline-code">$1</code>')
+                    // Code blocks
+                    .replace(/```(\w+)?\n([\s\S]*?)```/g, '<pre><code class="language-$1">$2</code></pre>')
+                    .replace(/```\n([\s\S]*?)```/g, '<pre><code>$1</code></pre>')
+                    // Links
+                    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>')
+                    // Lists
+                    .replace(/^\* (.+)$/gm, '<li>$1</li>')
+                    .replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>')
+                    // Blockquotes
+                    .replace(/^> (.+)$/gm, '<blockquote>$1</blockquote>')
+                    // Line breaks
+                    .replace(/\n/g, '<br>');
             }
             
             showLoading() {
@@ -890,6 +1234,223 @@
                     this.chatMessages.scrollTop = this.chatMessages.scrollHeight;
                 }, 100);
             }
+
+            // Enhanced Features Implementation
+            
+            copyMessage(content) {
+                navigator.clipboard.writeText(content).then(() => {
+                    // Show brief feedback
+                    const originalText = event.target.innerHTML;
+                    event.target.innerHTML = '✅';
+                    setTimeout(() => {
+                        event.target.innerHTML = '📋';
+                    }, 1000);
+                }).catch(err => {
+                    console.error('Failed to copy: ', err);
+                });
+            }
+
+            addReaction(messageDiv) {
+                const reactions = ['😊', '👍', '❤️', '😂', '😮', '😢', '😡', '🔥'];
+                const reaction = reactions[Math.floor(Math.random() * reactions.length)];
+                
+                // Add reaction badge to message
+                let reactionBadge = messageDiv.querySelector('.reaction-badge');
+                if (!reactionBadge) {
+                    reactionBadge = document.createElement('div');
+                    reactionBadge.className = 'reaction-badge';
+                    messageDiv.appendChild(reactionBadge);
+                }
+                reactionBadge.innerHTML = reaction;
+                reactionBadge.style.display = 'block';
+            }
+
+            searchMessages() {
+                const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+                const messages = this.chatMessages.querySelectorAll('.message');
+                
+                // Remove previous highlights
+                messages.forEach(msg => msg.classList.remove('highlighted'));
+                
+                if (searchTerm.trim() === '') {
+                    return;
+                }
+                
+                let foundCount = 0;
+                messages.forEach(message => {
+                    const content = message.dataset.content.toLowerCase();
+                    if (content.includes(searchTerm)) {
+                        message.classList.add('highlighted');
+                        foundCount++;
+                    }
+                });
+                
+                // Show search results count
+                const searchContainer = document.getElementById('searchContainer');
+                let resultDisplay = searchContainer.querySelector('.search-results');
+                if (!resultDisplay) {
+                    resultDisplay = document.createElement('div');
+                    resultDisplay.className = 'search-results';
+                    searchContainer.appendChild(resultDisplay);
+                }
+                resultDisplay.textContent = `Found ${foundCount} matches`;
+            }
+
+            clearSearch() {
+                const searchInput = document.getElementById('searchInput');
+                searchInput.value = '';
+                
+                const messages = this.chatMessages.querySelectorAll('.message');
+                messages.forEach(msg => msg.classList.remove('highlighted'));
+                
+                // Remove search results display
+                const searchContainer = document.getElementById('searchContainer');
+                const resultDisplay = searchContainer.querySelector('.search-results');
+                if (resultDisplay) {
+                    resultDisplay.remove();
+                }
+            }
+
+            toggleSearch() {
+                const searchContainer = document.getElementById('searchContainer');
+                const isActive = searchContainer.classList.contains('active');
+                
+                if (isActive) {
+                    searchContainer.classList.remove('active');
+                    this.clearSearch();
+                } else {
+                    searchContainer.classList.add('active');
+                    document.getElementById('searchInput').focus();
+                }
+            }
+
+            toggleShortcutsHelp() {
+                const help = document.getElementById('shortcutsHelp');
+                help.classList.toggle('active');
+            }
+
+            exportChat() {
+                const messages = Array.from(this.chatMessages.querySelectorAll('.message')).map(msg => {
+                    const sender = msg.classList.contains('user') ? 'user' : 'ai';
+                    const content = msg.dataset.content;
+                    const timestamp = new Date().toISOString();
+                    return { sender, content, timestamp };
+                });
+                
+                const exportData = {
+                    exportDate: new Date().toISOString(),
+                    totalMessages: messages.length,
+                    conversations: messages
+                };
+                
+                const blob = new Blob([JSON.stringify(exportData, null, 2)], { 
+                    type: 'application/json' 
+                });
+                
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `amelia-ai-chat-${new Date().toISOString().split('T')[0]}.json`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }
+
+            clearChat() {
+                if (confirm('Are you sure you want to clear the chat history?')) {
+                    this.chatMessages.innerHTML = '';
+                    this.welcomeScreen.style.display = 'flex';
+                    this.chatMessages.classList.remove('active');
+                    this.clearSearch();
+                }
+            }
+
+            editLastMessage() {
+                const messages = this.chatMessages.querySelectorAll('.message.user');
+                if (messages.length === 0) return;
+                
+                const lastMessage = messages[messages.length - 1];
+                const content = lastMessage.dataset.content;
+                
+                // Set input to last message content
+                this.messageInput.value = content;
+                this.messageInput.focus();
+                this.autoResize();
+                
+                // Remove the last message (user will send updated version)
+                lastMessage.remove();
+            }
+
+            toggleTheme() {
+                // Simple theme toggle (can be enhanced later)
+                document.body.classList.toggle('dark-theme');
+                const isDark = document.body.classList.contains('dark-theme');
+                localStorage.setItem('amelia-theme', isDark ? 'dark' : 'light');
+            }
+
+            setupKeyboardShortcuts() {
+                document.addEventListener('keydown', (e) => {
+                    // Only handle shortcuts when not typing in input (except for specific keys)
+                    const isTyping = e.target.tagName === 'TEXTAREA' || e.target.tagName === 'INPUT';
+                    
+                    if (e.ctrlKey || e.metaKey) {
+                        switch(e.key) {
+                            case 'Enter':
+                                e.preventDefault();
+                                if (!isTyping) this.sendMessage();
+                                break;
+                            case '/':
+                                e.preventDefault();
+                                this.messageInput.focus();
+                                break;
+                            case 'f':
+                                e.preventDefault();
+                                this.toggleSearch();
+                                break;
+                            case 't':
+                                e.preventDefault();
+                                this.toggleTheme();
+                                break;
+                            case 'e':
+                                e.preventDefault();
+                                this.exportChat();
+                                break;
+                            case '?':
+                                e.preventDefault();
+                                this.toggleShortcutsHelp();
+                                break;
+                            case 'ArrowUp':
+                                if (isTyping) {
+                                    e.preventDefault();
+                                    this.editLastMessage();
+                                }
+                                break;
+                        }
+                        
+                        if (e.shiftKey && e.key === 'C') {
+                            e.preventDefault();
+                            this.clearChat();
+                        }
+                    }
+                    
+                    // Close shortcuts help on Escape
+                    if (e.key === 'Escape') {
+                        const help = document.getElementById('shortcutsHelp');
+                        if (help.classList.contains('active')) {
+                            help.classList.remove('active');
+                        }
+                    }
+                });
+                
+                // Close shortcuts help when clicking outside
+                document.addEventListener('click', (e) => {
+                    const help = document.getElementById('shortcutsHelp');
+                    if (help.classList.contains('active') && !help.contains(e.target)) {
+                        help.classList.remove('active');
+                    }
+                });
+            }
         }
         
         // Global functions
@@ -905,6 +1466,34 @@
                 window.ameliaAI.sendMessage();
             }
         }
+
+        function searchMessages() {
+            if (window.ameliaAI) {
+                window.ameliaAI.searchMessages();
+            }
+        }
+
+        function clearSearch() {
+            if (window.ameliaAI) {
+                window.ameliaAI.clearSearch();
+            }
+        }
+
+        // Add debounce function for search
+        let searchTimeout;
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) {
+                searchInput.addEventListener('input', (e) => {
+                    clearTimeout(searchTimeout);
+                    searchTimeout = setTimeout(() => {
+                        if (window.ameliaAI) {
+                            window.ameliaAI.searchMessages();
+                        }
+                    }, 300);
+                });
+            }
+        });
         
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
