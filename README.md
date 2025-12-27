@@ -1,6 +1,6 @@
 # Amelia AI - Intelligent Assistant Interface
 
-A responsive AI chat interface inspired by Google's Gemini, branded as "Amelia AI" with modern design and Puter.js integration.
+A responsive AI chat interface inspired by Google's Gemini, branded as "Amelia AI" with modern design integration.
 
 ## Features
 
