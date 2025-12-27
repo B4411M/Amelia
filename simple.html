@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amelia AI - Simple Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            max-width: 600px;
+            width: 100%;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 36px;
+            font-weight: bold;
+        }
+        
+        .title {
+            color: #333;
+            margin: 0;
+            font-size: 28px;
+        }
+        
+        .subtitle {
+            color: #666;
+            margin: 5px 0 0 0;
+            font-size: 16px;
+        }
+        
+        .chat-box {
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            min-height: 200px;
+            max-height: 300px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            background: #fafafa;
+        }
+        
+        .message {
+            margin: 10px 0;
+            padding: 10px 15px;
+            border-radius: 15px;
+            max-width: 80%;
+        }
+        
+        .user-msg {
+            background: #667eea;
+            color: white;
+            margin-left: auto;
+            text-align: right;
+        }
+        
+        .ai-msg {
+            background: #e1e5e9;
+            color: #333;
+            margin-right: auto;
+        }
+        
+        .input-area {
+            display: flex;
+            gap: 10px;
+        }
+        
+        input[type="text"] {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 25px;
+            font-size: 16px;
+            outline: none;
+        }
+        
+        input[type="text"]:focus {
+            border-color: #667eea;
+        }
+        
+        button {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        button:hover {
+            background: #5a67d8;
+        }
+        
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .suggestions {
+            margin-top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+        
+        .suggestion-btn {
+            background: #f0f0f0;
+            border: 1px solid #ddd;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .suggestion-btn:hover {
+            background: #667eea;
+            color: white;
+        }
+        
+        .status {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .success {
+            color: green;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">A</div>
+            <h1 class="title">Amelia AI</h1>
+            <p class="subtitle">Your Intelligent Assistant</p>
+        </div>
+        
+        <div class="chat-box" id="chatBox">
+            <div class="message ai-msg">
+                Hello! I'm Amelia AI. This is a simple test version. Type a message below to start chatting!
+            </div>
+        </div>
+        
+        <div class="input-area">
+            <input type="text" id="messageInput" placeholder="Type your message..." maxlength="500">
+            <button id="sendBtn" onclick="sendMessage()" disabled>Send</button>
+        </div>
+        
+        <div class="suggestions">
+            <button class="suggestion-btn" onclick="useSuggestion('Hello Amelia!')">Hello!</button>
+            <button class="suggestion-btn" onclick="useSuggestion('What can you help me with?')">What can you help with?</button>
+            <button class="suggestion-btn" onclick="useSuggestion('Tell me about yourself')">Tell me about yourself</button>
+            <button class="suggestion-btn" onclick="useSuggestion('How does this work?')">How does this work?</button>
+        </div>
+        
+        <div class="status" id="status">
+            ✅ Website loaded successfully! Puter.js: <span id="puterStatus">Checking...</span>
+        </div>
+    </div>
+
+    <!-- Puter.js Library -->
+    <script src="https://js.puter.com/v2/"></script>
+    
+    <script>
+        // Test if Puter.js loaded
+        setTimeout(() => {
+            if (typeof puter !== 'undefined') {
+                document.getElementById('puterStatus').textContent = '✅ Loaded';
+                document.getElementById('puterStatus').className = 'success';
+            } else {
+                document.getElementById('puterStatus').textContent = '❌ Not loaded (using fallback)';
+            }
+        }, 1000);
+        
+        function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const chatBox = document.getElementById('chatBox');
+            const sendBtn = document.getElementById('sendBtn');
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            // Add user message
+            addMessage(message, 'user');
+            
+            // Clear input
+            input.value = '';
+            sendBtn.disabled = true;
+            
+            // Show typing indicator
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'message ai-msg';
+            typingDiv.textContent = 'Amelia is typing...';
+            chatBox.appendChild(typingDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+            
+            // Simulate AI response after delay
+            setTimeout(() => {
+                // Remove typing indicator
+                chatBox.removeChild(typingDiv);
+                
+                // Add AI response
+                const response = getAIResponse(message);
+                addMessage(response, 'ai');
+            }, 1500);
+        }
+        
+        function addMessage(text, sender) {
+            const chatBox = document.getElementById('chatBox');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender === 'user' ? 'user-msg' : 'ai-msg'}`;
+            messageDiv.textContent = text;
+            chatBox.appendChild(messageDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+        
+        function getAIResponse(message) {
+            // Check if Puter.js is available
+            if (typeof puter !== 'undefined' && puter.ai && typeof puter.ai.chat === 'function') {
+                // Try to use Puter.js (this would need actual implementation)
+                return `Thank you for your message: "${message}". Puter.js is available! This would be where the real AI response would come from.`;
+            } else {
+                // Fallback responses
+                const responses = [
+                    `I received your message: "${message}". This is a demonstration of the Amelia AI interface with Puter.js integration.`,
+                    `Thanks for asking about "${message}". This shows how the chat interface works with responsive design.`,
+                    `That's interesting about "${message}". This interface demonstrates modern web development with AI chat capabilities.`,
+                    `Your message "${message}" has been processed. This is a showcase of the Amelia AI website design.`,
+                    `I understand you're asking about "${message}". This demonstrates the interactive capabilities of the chat system.`
+                ];
+                return responses[Math.floor(Math.random() * responses.length)];
+            }
+        }
+        
+        function useSuggestion(text) {
+            document.getElementById('messageInput').value = text;
+            document.getElementById('sendBtn').disabled = false;
+        }
+        
+        // Event listeners
+        document.getElementById('messageInput').addEventListener('input', function() {
+            const hasText = this.value.trim().length > 0;
+            document.getElementById('sendBtn').disabled = !hasText;
+        });
+        
+        document.getElementById('messageInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && !this.value.trim()) return;
+            if (e.key === 'Enter' && !document.getElementById('sendBtn').disabled) {
+                sendMessage();
+            }
+        });
+        
+        // Initialize
+        console.log('🚀 Amelia AI Simple Test loaded!');
+        console.log('📱 This is a minimal working version.');
+        console.log('🔧 Use this to test basic functionality before expanding.');
+    </script>
+</body>
+</html>
