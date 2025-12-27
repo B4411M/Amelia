@@ -673,6 +673,29 @@
             background: rgba(0, 0, 0, 0.1);
         }
 
+        /* Real-time Typing Effect */
+        .typing-cursor {
+            display: inline-block;
+            background: #1e293b;
+            width: 2px;
+            height: 1em;
+            margin-left: 2px;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        .message.ai .typing-cursor {
+            background: #64748b;
+        }
+
+        .typing-content {
+            min-height: 1.5em;
+        }
+
         .message.user .action-button {
             background: rgba(255, 255, 255, 0.2);
         }
@@ -1131,7 +1154,7 @@
                 
                 try {
                     const response = await window.AIConnection.chat(message);
-                    this.addMessage(response, 'ai');
+                    this.addMessageWithTypingEffect(response, 'ai');
                 } catch (error) {
                     console.error('AI Error:', error);
                     this.addMessage(`Sorry, I encountered an error: ${error.message}`, 'ai');
@@ -1233,6 +1256,55 @@
                 setTimeout(() => {
                     this.chatMessages.scrollTop = this.chatMessages.scrollHeight;
                 }, 100);
+            }
+
+            async addMessageWithTypingEffect(content, sender) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${sender}`;
+                
+                const avatar = document.createElement('div');
+                avatar.className = 'message-avatar';
+                avatar.textContent = sender === 'user' ? 'U' : 'A';
+                
+                const contentDiv = document.createElement('div');
+                contentDiv.className = 'message-content';
+                contentDiv.innerHTML = '<div class="typing-content"></div><span class="typing-cursor"></span>';
+                
+                const typingContent = contentDiv.querySelector('.typing-content');
+                
+                messageDiv.appendChild(avatar);
+                messageDiv.appendChild(contentDiv);
+                
+                this.chatMessages.appendChild(messageDiv);
+                this.scrollToBottom();
+                
+                // Start typing effect
+                await this.typeText(typingContent, content);
+                
+                // Remove typing cursor after completion
+                const cursor = contentDiv.querySelector('.typing-cursor');
+                if (cursor) cursor.remove();
+                
+                // Apply final formatting
+                typingContent.innerHTML = this.formatMessage(content);
+            }
+
+            async typeText(element, text) {
+                const words = text.split(' ');
+                let currentText = '';
+                
+                for (let i = 0; i < words.length; i++) {
+                    currentText += (i > 0 ? ' ' : '') + words[i];
+                    element.innerHTML = this.formatMessage(currentText);
+                    this.scrollToBottom();
+                    
+                    // Random typing speed between 50-150ms per word
+                    const delay = Math.random() * 100 + 50;
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                }
+                
+                // Final formatting
+                element.innerHTML = this.formatMessage(text);
             }
 
             // Enhanced Features Implementation
