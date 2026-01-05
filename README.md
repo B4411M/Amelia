@@ -84,19 +84,19 @@ The dashboard shows real-time status of all AI services:
 ```
 ┌─────────────────────────────────────────────────────────┐
 │                    AMELIA AI UI                         │
-│              (Dashboard, Tabs, Panels)                 │
+│              (Dashboard, Tabs, Panels)                  │
 └─────────────────────────────────────────────────────────┘
                           │
                           ▼
 ┌─────────────────────────────────────────────────────────┐
 │              AI ORCHESTRATOR LAYER                      │
-│            (MultiAIOrchestrator Class)                 │
-│  ┌─────────────────────────────────────────────────┐   │
-│  │        Intelligent Routing System               │   │
-│  │  - Task Analysis → Select Best AI              │   │
-│  │  - Load Balancing antar libraries              │   │
-│  │  - Fallback Management                         │   │
-│  └─────────────────────────────────────────────────┘   │
+│            (MultiAIOrchestrator Class)                  │
+│  ┌─────────────────────────────────────────────────┐    │
+│  │        Intelligent Routing System               │    │
+│  │  - Task Analysis → Select Best AI               │    │
+│  │  - Load Balancing antar libraries               │    │
+│  │  - Fallback Management                          │    │
+│  └─────────────────────────────────────────────────┘    │
 └─────────────────────────────────────────────────────────┘
                           │
         ┌─────────────────┼─────────────────┐
