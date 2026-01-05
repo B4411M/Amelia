@@ -1,40 +1,38 @@
-MIT License
+MIT-Based License (Non-Commercial, No Sublicense)
 
-Copyright (c) 2025 Ibrahim Yusuf
+Copyright (c) 2026 Ibrahim Yusuf
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+of this software and associated documentation files (the "Software"), to use,
+copy, and modify the Software for non-commercial purposes only, subject to the
+following conditions:
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+1. The Software may NOT be sold, rented, leased, or used for commercial purposes.
+2. The Software may NOT be sublicensed or redistributed for profit.
+3. Modified versions of the Software may be distributed only under this same license
+   and only for non-commercial purposes.
+4. This copyright notice and this permission notice shall be included in all copies
+   or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-Lisensi MIT
+Lisensi Berbasis MIT (Non-Komersial, Tanpa Sub-Lisensi)
 
-Hak Cipta (c) 2025 Ibrahim Yusuf
+Hak Cipta (c) 2026 Ibrahim Yusuf
 
-Izin diberikan secara cuma-cuma kepada siapa pun yang memperoleh salinan
-perangkat lunak ini dan berkas dokumentasi terkait ("Perangkat Lunak"), untuk menangani
-Perangkat Lunak tanpa batasan, termasuk tanpa batasan hak
-untuk menggunakan, menyalin, memodifikasi, menggabungkan, menerbitkan, mendistribusikan, mensublisensikan, dan/atau menjual
-salinan Perangkat Lunak, dan untuk mengizinkan orang-orang yang kepadanya Perangkat Lunak diberikan
-untuk melakukannya, dengan tunduk pada ketentuan berikut:
+Izin diberikan secara gratis kepada siapa pun yang memperoleh salinan perangkat
+lunak ini dan dokumentasi terkait ("Perangkat Lunak") untuk menggunakan, menyalin,
+dan memodifikasi Perangkat Lunak hanya untuk tujuan non-komersial, dengan ketentuan:
 
-Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam semua
-salinan atau bagian substansial dari Perangkat Lunak.
+1. Perangkat Lunak TIDAK BOLEH dijual, disewakan, atau digunakan untuk tujuan komersial.
+2. Perangkat Lunak TIDAK BOLEH disublisensikan atau didistribusikan untuk keuntungan.
+3. Versi modifikasi hanya boleh didistribusikan dengan lisensi yang sama dan
+   tetap bersifat non-komersial.
+4. Pemberitahuan hak cipta dan lisensi ini harus disertakan dalam setiap salinan.
 
-PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA GARANSI APA PUN, TERSURAT MAUPUN
-TERSIRAT, TERMASUK NAMUN TIDAK TERBATAS PADA GARANSI KELAYAKAN DAGANG,
-KESESUAIAN UNTUK TUJUAN TERTENTU DAN TIDAK ADANYA PELANGGARAN HAK CIPTA. DALAM KEADAAN APA PUN, PARA PENULIS ATAU PEMEGANG HAK CIPTA TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN, ATAU TANGGUNG JAWAB LAINNYA, BAIK DALAM TINDAKAN KONTRAK, PERBUATAN MELANGGAR HUKUM, ATAU LAINNYA, YANG TIMBUL DARI,
-ATAU SEHUBUNGAN DENGAN PERANGKAT LUNAK ATAU PENGGUNAAN ATAU TRANSAKSI LAINNYA DALAM PERANGKAT LUNAK TERSEBUT.
+Perangkat Lunak disediakan "APA ADANYA" tanpa jaminan apa pun.
