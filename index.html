@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Amelia AI - B41M</title>
+    <title>Amelia AI - B41M </title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -641,6 +641,76 @@
             padding: 8px;
         }
 
+        /* Attachment Buttons */
+        .attachment-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .attachment-btn {
+            width: 40px;
+            height: 40px;
+            background: #f1f5f9;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            font-size: 18px;
+        }
+
+        .attachment-btn:hover {
+            background: #e2e8f0;
+            transform: translateY(-2px);
+        }
+
+        .attachment-btn.recording {
+            background: #ef4444;
+            color: white;
+            animation: pulse 1s infinite;
+        }
+
+        /* Image Preview */
+        .image-preview {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .image-preview-item {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .image-preview-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .image-preview-item .remove-btn {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            width: 20px;
+            height: 20px;
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
         /* Message Actions */
         .message-actions {
             position: absolute;
@@ -1268,53 +1338,6 @@
 
     <!-- Main Content -->
         <main class="main-content">
-            <!-- AI Dashboard -->
-            <div class="ai-dashboard" id="aiDashboard">
-                <div class="ai-feature-card active" data-tab="chat" onclick="window.multiAI.switchTab('chat')">
-                    <div class="icon">💬</div>
-                    <h4>Chat AI</h4>
-                    <p>Puter.js - NLP & Chat</p>
-                    <span class="ai-status-badge loading" id="status-puter">Loading...</span>
-                </div>
-                <div class="ai-feature-card" data-tab="vision" onclick="window.multiAI.switchTab('vision')">
-                    <div class="icon">👁️</div>
-                    <h4>Computer Vision</h4>
-                    <p>TensorFlow.js - ML</p>
-                    <span class="ai-status-badge loading" id="status-tensorflow">Loading...</span>
-                </div>
-                <div class="ai-feature-card" data-tab="ml" onclick="window.multiAI.switchTab('ml')">
-                    <div class="icon">🧠</div>
-                    <h4>Machine Learning</h4>
-                    <p>ML5.js - Friendly ML</p>
-                    <span class="ai-status-badge loading" id="status-ml5">Loading...</span>
-                </div>
-                <div class="ai-feature-card" data-tab="neural" onclick="window.multiAI.switchTab('neural')">
-                    <div class="icon">🔮</div>
-                    <h4>Neural Networks</h4>
-                    <p>Brain.js - Neural</p>
-                    <span class="ai-status-badge loading" id="status-brain">Loading...</span>
-                </div>
-            </div>
-
-            <!-- Feature Tabs -->
-            <div class="feature-tabs" id="featureTabs">
-                <button class="tab-btn active" data-tab="chat" onclick="window.multiAI.switchTab('chat')">
-                    💬 Chat
-                </button>
-                <button class="tab-btn" data-tab="vision" onclick="window.multiAI.switchTab('vision')">
-                    👁️ Vision
-                </button>
-                <button class="tab-btn" data-tab="ml" onclick="window.multiAI.switchTab('ml')">
-                    🧠 ML
-                </button>
-                <button class="tab-btn" data-tab="neural" onclick="window.multiAI.switchTab('neural')">
-                    🔮 Neural
-                </button>
-                <button class="tab-btn" data-tab="chain" onclick="window.multiAI.switchTab('chain')">
-                    🔗 Chain
-                </button>
-            </div>
-
             <!-- Welcome Screen -->
             <div class="welcome-screen" id="welcomeScreen">
                 <div class="welcome-content">
