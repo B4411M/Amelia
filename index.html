@@ -1696,7 +1696,7 @@ updateDebugPanel() {
             }
             
             async initializeAI() {
-                this.updateStatus('connecting', 'Connecting to AI...');
+                this.updateStatus('connecting', 'Tunggu...');
                 
                 try {
                     const result = await window.AIConnection.initialize();
@@ -1722,7 +1722,7 @@ updateDebugPanel() {
                 
                 while (attempts < maxAttempts && !this.aiAvailable) {
                     attempts++;
-                    this.updateStatus('connecting', `Connecting to AI... (${attempts}/${maxAttempts})`);
+                    this.updateStatus('connecting', `Tunggu... (${attempts}/${maxAttempts})`);
                     
                     try {
                         const result = await window.AIConnection.retryConnection();
@@ -1731,7 +1731,7 @@ updateDebugPanel() {
                             this.aiAvailable = true;
                             this.updateStatus('online', 'Siap');
                             this.enableChat();
-                            this.welcomeDescription.textContent = "I'm ready to help! Ask me anything.";
+                            this.welcomeDescription.textContent = "Saya siap membantu! Tanyakan apa saja.";
                             this.suggestionChips.style.display = 'flex';
                             return;
                         }
