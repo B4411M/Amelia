@@ -1327,12 +1327,12 @@
                 <div class="logo">A</div>
                 <div class="brand-text">
                     <h1>Amelia AI</h1>
-                    <p>By : B41M</p>
+                    <p>By : B41M </p>
                 </div>
             </div>
             <div class="status">
                 <div class="status-dot" id="statusDot"></div>
-                <span id="statusText">Initializing AI...</span>
+                <span id="statusText">Tunggu...</span>
             </div>
         </header>
 
@@ -1344,7 +1344,7 @@
                     <div class="welcome-logo">A</div>
                     <h2 class="welcome-title">Connecting to Amelia AI</h2>
                     <p class="welcome-description" id="welcomeDescription">
-                        Establishing direct connection to Amelia AI service...
+                        Membangun koneksi langsung ke layanan Amelia AI...
                     </p>
                     <div class="suggestion-chips" id="suggestionChips" style="display: none;">
                         <button class="suggestion-chip" onclick="useSuggestion('Hello, how are you?')">
@@ -1382,7 +1382,7 @@
                     <div class="typing-dot"></div>
                     <div class="typing-dot"></div>
                 </div>
-                <span class="loading-text">AI is thinking...</span>
+                <span class="loading-text">Berfikir...</span>
             </div>
         </main>
 
@@ -1392,7 +1392,7 @@
                 <div class="input-field">
                     <textarea 
                         id="messageInput" 
-                        placeholder="Ask Amelia AI anything..." 
+                        placeholder="Tanyakan apa saja pada Amelia AI..." 
                         rows="1"
                         disabled
                     ></textarea>
@@ -1703,7 +1703,7 @@ updateDebugPanel() {
                     
                     if (result.success) {
                         this.aiAvailable = true;
-                        this.updateStatus('online', 'AI Connected');
+                        this.updateStatus('online', 'Siap');
                         this.enableChat();
                         this.welcomeDescription.textContent = "I'm ready to help! Ask me anything.";
                         this.suggestionChips.style.display = 'flex';
@@ -1729,7 +1729,7 @@ updateDebugPanel() {
                         
                         if (result.success) {
                             this.aiAvailable = true;
-                            this.updateStatus('online', 'AI Connected');
+                            this.updateStatus('online', 'Siap');
                             this.enableChat();
                             this.welcomeDescription.textContent = "I'm ready to help! Ask me anything.";
                             this.suggestionChips.style.display = 'flex';
