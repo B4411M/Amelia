@@ -42,7 +42,7 @@ class PluginManager {
         this.register({
             name: 'calculator',
             version: '1.0.0',
-            author: 'B41M',
+            author: 'B41M ( Ibrahim Yusuf )',
             description: 'Kalkulator matematika',
             commands: [
                 { name: 'calc', handler: 'calculate' },
@@ -56,7 +56,7 @@ class PluginManager {
         this.register({
             name: 'translator',
             version: '1.0.0',
-            author: 'B41M',
+            author: 'B41M ( Ibrahim Yusuf )',
             description: 'Penerjemah multi-bahasa',
             commands: [
                 { name: 'translate', handler: 'translate' },
@@ -70,7 +70,7 @@ class PluginManager {
         this.register({
             name: 'code-highlight',
             version: '1.0.0',
-            author: 'B41M',
+            author: 'B41M ( Ibrahim Yusuf )',
             description: 'Syntax highlighting',
             onLoad: () => console.log('[CodeHighlight] Plugin loaded')
         });
@@ -79,7 +79,7 @@ class PluginManager {
         this.register({
             name: 'image-editor',
             version: '1.0.0',
-            author: 'B41M',
+            author: 'B41M ( Ibrahim Yusuf )',
             description: 'Editing gambar dasar',
             commands: [
                 { name: 'crop', handler: 'crop' },
@@ -94,7 +94,7 @@ class PluginManager {
         this.register({
             name: 'pdf-reader',
             version: '1.0.0',
-            author: 'B41M',
+            author: 'B41M ( Ibrahim Yusuf )',
             description: 'Baca file PDF',
             commands: [
                 { name: 'pdf', handler: 'readPDF' }

@@ -1524,12 +1524,14 @@
                 day: 'numeric' 
             }),
             
-            // System Information
             systemInfo: {
-                version: "Amelia AI v2.1.0",
-                lastUpdate: new Date().toISOString(),
-                knowledgeCutoff: "December 2025",
-                creator: "B41M"
+                     version: "Amelia AI v3.0.0",
+                     lastUpdate: new Date().toISOString(),
+                      knowledgeCutoff: new Date().toLocaleDateString("en-US", {
+                         month: "long",
+        year: "numeric"
+                     }),
+    creator: "B41M ( Ibrahim Yusuf )"
             },
             
             // Enhanced Context untuk AI

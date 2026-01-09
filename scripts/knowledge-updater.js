@@ -9,8 +9,10 @@ class KnowledgeUpdater {
     constructor() {
         this.isUpdating = false;
         this.lastUpdate = null;
-        this.updateInterval = 30 * 60 * 1000; // 30 minutes
+        this.updateInterval = 5 * 60 * 1000; // 5 minutes (lebih sering!)
         this.cachedData = {};
+        this.updateOnEveryQuery = true; // Update setiap ada query
+        this.continuousMode = true; // Mode update terus-menerus
         
         // Knowledge sources
         this.sources = {
@@ -19,12 +21,16 @@ class KnowledgeUpdater {
                 parser: this.parseNewsRSS.bind(this)
             },
             wikipedia: {
-                url: 'https://api.allorigins.win/raw?url=https://en.wikipedia.org/w/api.php?action=query&list=search&srlimit=10&format=json&origin=*',
+                url: 'https://api.allorigins.win/raw?url=https://en.wikipedia.org/w/api.php?action=query&list=search&srlimit=15&format=json&origin=*',
                 parser: this.parseWikipedia.bind(this)
             },
             time: {
                 url: null,
                 parser: this.getTimeData.bind(this)
+            },
+            trends: {
+                url: 'https://api.allorigins.win/raw?url=https://trends.google.com/trends/api/dailytrends?hl=id&cat=all',
+                parser: this.parseTrends.bind(this)
             }
         };
     }
@@ -32,20 +38,56 @@ class KnowledgeUpdater {
     // Initialize knowledge update system
     async init() {
         console.log('🔄 Knowledge Updater: Starting...');
+        console.log('📡 Mode: Continuous Update (Setiap 5 menit)');
         
         // Initial update
         await this.performUpdate();
         
-        // Periodic updates
+        // Periodic updates - lebih sering!
         setInterval(() => {
             this.performUpdate();
         }, this.updateInterval);
         
-        console.log('✅ Knowledge Updater ready!');
+        // Background continuous update ( setiap 1 menit )
+        setInterval(() => {
+            this.quickUpdate();
+        }, 60 * 1000);
+        
+        // Listen untuk user queries
+        this.setupQueryListener();
+        
+        console.log('✅ Knowledge Updater ready! (Continuous Mode)');
         return true;
     }
 
-    // Perform knowledge update from all sources
+    // Setup listener untuk setiap user query
+    setupQueryListener() {
+        document.addEventListener('message-sent', async (e) => {
+            if (this.updateOnEveryQuery) {
+                // Update ringan saat ada pesan
+                await this.quickUpdate();
+            }
+        });
+    }
+
+    // Quick update (hanya waktu dan data ringan)
+    async quickUpdate() {
+        try {
+            // Update waktu
+            this.cachedData.time = this.getTimeData();
+            this.lastUpdate = new Date();
+            
+            // Trigger update event
+            window.dispatchEvent(new CustomEvent('knowledge-updated', {
+                detail: { timestamp: this.lastUpdate }
+            }));
+            
+        } catch (error) {
+            console.warn('Quick update failed:', error.message);
+        }
+    }
+
+    // Perform full knowledge update from all sources
     async performUpdate() {
         if (this.isUpdating) {
             console.log('⏳ Update already in progress...');
@@ -145,6 +187,28 @@ class KnowledgeUpdater {
             timestamp: now.toISOString(),
             timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
         };
+    }
+
+    // Parse trends data
+    parseTrends(xmlText) {
+        try {
+            const parser = new DOMParser();
+            const xml = parser.parseFromString(xmlText, 'text/xml');
+            const trends = [];
+            
+            const entries = xml.querySelectorAll('entry');
+            entries.slice(0, 10).forEach(entry => {
+                trends.push({
+                    title: entry.querySelector('title')?.textContent || '',
+                    traffic: entry.querySelector(' traffics')?.textContent || ''
+                });
+            });
+            
+            return trends;
+        } catch (error) {
+            console.warn('Trends parsing failed:', error.message);
+            return [];
+        }
     }
 
     // Parse news RSS

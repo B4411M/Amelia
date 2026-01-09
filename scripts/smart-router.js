@@ -45,6 +45,9 @@ class SmartQuestionClassifier {
             // Personal questions
             personal: /(siapa kamu|who are you|what are you|kenalkan perkenalkan|describe yourself|tentang kamu|about you|your name|namamu)/i,
             
+            // Kepemilikan/Creator questions
+            ownership: /(siapa yang membuat|siapa pembuat|siapa creator|siapa developer|siapa owner|siapa pendiri|bagaiamana dibuat|siapa dibalik|siapa team|who made|who created|who developed|who is the owner|who is the creator|who built you|your creator|your developer|your owner|your team)/i,
+            
             // Sentiment/emotion
             sentiment: /(senang|sedih|marah|bahagia|kecewa|cinta|benci|marah|happy|sad|angry|love|hate|excited|bored|tired|feel|feeling)/i
         };
@@ -91,7 +94,13 @@ class SmartQuestionClassifier {
                 'apa itu ai': 'AI (Artificial Intelligence) adalah kecerdasan buatan yang memungkinkan komputer dan mesin berpikir seperti manusia. AI dapat belajar, memecahkan masalah, dan membuat keputusan.',
                 'apa itu machine learning': 'Machine Learning adalah cabang AI yang memungkinkan sistem belajar dari data dan meningkatkan kinerja secara otomatis tanpa diprogram secara eksplisit.',
                 'apa itu deep learning': 'Deep Learning adalah subset dari Machine Learning yang menggunakan neural network dengan banyak lapisan untuk mempelajari pola kompleks dalam data.',
-                'siapa kamu': 'Saya Amelia AI, asisten virtual yang dibuat oleh B41M. Saya menggunakan teknologi AI terkini untuk membantu menjawab pertanyaan Anda.',
+                'siapa kamu': 'Saya Amelia AI, asisten virtual yang dibuat oleh B41M ( Ibrahim Yusuf )  . Saya menggunakan teknologi AI terkini untuk membantu menjawab pertanyaan Anda.',
+                'siapa yang membuat kamu': 'Saya Amelia AI dibuat oleh **B41M ( Ibrahim Yusuf )  ** - seorang developer Indonesia yang passion dalam teknologi AI dan pengembangan aplikasi cerdas. B41M ( Ibrahim Yusuf )   menciptakan saya untuk memberikan pengalaman AI yang powerful dan mudah digunakan.',
+                'siapa creator kamu': '**B41M ( Ibrahim Yusuf )  ** adalah creator/pencipta Amelia AI. B41M ( Ibrahim Yusuf )   adalah inovator teknologi yang fokus pada pengembangan AI solutions untuk pengguna Indonesia. Dengan visi membuat AI accessible untuk semua orang, B41M ( Ibrahim Yusuf )   membangun Amelia AI dengan berbagai fitur canggih.',
+                'siapa developer kamu': 'Amelia AI dikembangkan oleh **B41M ( Ibrahim Yusuf )  ** - seorang full-stack developer dengan keahlian di bidang AI, Machine Learning, dan Web Development. B41M ( Ibrahim Yusuf )   bertanggung jawab atas seluruh pengembangan, maintenance, dan improvement Amelia AI.',
+                'siapa owner': '**B41M ( Ibrahim Yusuf )  ** adalah owner dan founder dari Amelia AI. B41M ( Ibrahim Yusuf )   memiliki dan mengelola Amelia AI dengan misi untuk democratize akses terhadap teknologi AI bagi pengguna Indonesia.',
+                'siapa pendiri': '**B41M ( Ibrahim Yusuf )  ** adalah founder dan pendiri Amelia AI. Dengan latar belakang di bidang teknologi, B41M ( Ibrahim Yusuf )   mendirikan Amelia AI untuk memberikan solusi AI yang powerful, mudah diakses, dan bermanfaat bagi masyarakat.',
+                'siapa team': 'Amelia AI dikembangkan dan dikelola oleh **B41M ( Ibrahim Yusuf )  ** sebagai founder dan lead developer. B41M ( Ibrahim Yusuf )   bekerja sama dengan komunitas open-source dan memanfaatkan berbagai teknologi AI tercanggih seperti Puter.js, TensorFlow.js, dan lainnya.',
                 'what is ai': 'AI (Artificial Intelligence) refers to the simulation of human intelligence in machines programmed to think and learn like humans.',
                 'how to learn coding': 'Untuk belajar coding: 1) Pilih bahasa pemrograman (Python bagus untuk pemula), 2) Praktekkan setiap hari, 3) Buat proyek kecil, 4) Bergabung dengan komunitas, 5) Jangan takut membuat kesalahan.',
                 'apa kabar': 'Saya baik! Terima kasih sudah bertanya. Saya siap membantu Anda dengan pertanyaan atau tugas apa pun. Bagaimana dengan Anda?'
@@ -161,7 +170,18 @@ class SmartQuestionClassifier {
             return analysis;
         }
         
-        // Step 5: Cek pertanyaan personal
+        // Step 5: Cek pertanyaan kepemilikan/creator
+        if (this.isOwnershipQuestion(message)) {
+            analysis.category = 'ownership';
+            analysis.needsAI = false;
+            analysis.needsLocal = true;
+            analysis.confidence = 0.95;
+            analysis.suggestedService = 'local';
+            analysis.localResult = this.getOwnershipResponse(message);
+            return analysis;
+        }
+        
+        // Step 6: Cek pertanyaan personal
         if (this.isPersonalQuestion(message)) {
             analysis.category = 'personal';
             analysis.needsAI = true;
@@ -332,6 +352,98 @@ class SmartQuestionClassifier {
     
     isPersonalQuestion(message) {
         return this.patterns.personal.test(message.trim().toLowerCase());
+    }
+    
+    isOwnershipQuestion(message) {
+        return this.patterns.ownership.test(message.trim().toLowerCase());
+    }
+    
+    getOwnershipResponse(message) {
+        const cleaned = message.trim().toLowerCase();
+        
+        const responses = {
+            creator: `👨‍💻 **TENTANG PEMBUAT AMELIA AI**
+
+**B41M ( Ibrahim Yusuf )   ** adalah creator/pencipta Amelia AI. B41M ( Ibrahim Yusuf )    adalah:
+- 👨‍💼 Founder & Lead Developer Amelia AI
+- 🎯 Fokus pada AI & Machine Learning
+- 🌟 Inovator teknologi Indonesia
+- 💡 Misi: Demokratisasi AI untuk semua orang
+
+B41M ( Ibrahim Yusuf )     menciptakan Amelia AI dengan visi memberikan akses teknologi AI tercanggih kepada pengguna Indonesia dengan cara yang mudah dan intuitif.`,
+
+            developer: `👨‍💻 **TIM PENGEMBANG AMELIA AI**
+
+Amelia AI dikembangkan dan dikelola oleh **B41M ( Ibrahim Yusuf )    (Ibrahim Yusuf )** sebagai lead developer dengan dukungan komunitas open-source.
+
+**Teknologi yang digunakan:**
+- 🤖 Puter.js - AI Chat Engine
+- 🧠 TensorFlow.js - Machine Learning
+- 🎯 ML5.js - Friendly ML
+- 💻 Brain.js - Neural Networks
+- 🔗 LangChain.js - LLM Framework
+
+Semua dikembangkan dengan 💙 oleh B41M ( Ibrahim Yusuf )    `,
+
+            owner: `👑 **OWNER & FOUNDER**
+
+**B41M ( Ibrahim Yusuf )    ** adalah owner dan founder dari Amelia AI.
+
+Dengan semangat inovasi dan dedikasi untuk teknologi, B41M ( Ibrahim Yusuf )     membangun Amelia AI sebagai:
+- 💬 Asisten AI yang powerful
+- 🌍 Terjemahan multi-bahasa (termasuk Indonesia)
+- 🎨 Interface yang user-friendly
+- 🔒 Keamanan data pengguna
+
+Amelia AI adalah produk kebanggaan dari B41M ( Ibrahim Yusuf )   .`,
+
+            team: `👥 **TIM AMELIA AI**
+
+Amelia AI dikembangkan secara primary oleh **B41M ( Ibrahim Yusuf )   ** sebagai founder, lead developer, dan maintainer.
+
+**B41M ( Ibrahim Yusuf )  ** bertanggung jawab atas:
+- 🎯 Arsitektur sistem
+- 💻 Pengembangan code
+- 🐛 Bug fixes & updates
+- 📈 Feature improvements
+- 🎨 User Experience design
+
+Dengan dukungan komunitas open-source dan user feedback yang aktif, Amelia AI terus berkembang menjadi lebih baik.`
+        };
+
+        // Return response based on keywords
+        if (cleaned.includes('creator') || cleaned.includes('made') || cleaned.includes('created') || cleaned.includes('build')) {
+            return responses.creator;
+        }
+        if (cleaned.includes('developer') || cleaned.includes('develop') || cleaned.includes('programming')) {
+            return responses.developer;
+        }
+        if (cleaned.includes('owner') || cleaned.includes('pemilik') || cleaned.includes('milik')) {
+            return responses.owner;
+        }
+        if (cleaned.includes('team') || cleaned.includes('tim') || cleaned.includes('group')) {
+            return responses.team;
+        }
+        if (cleaned.includes('pendiri') || cleaned.includes('founder') || cleaned.includes('founded')) {
+            return responses.owner;
+        }
+        
+        // Default response tentang kepemilikan
+        return `👨‍💻 **TENTANG AMELIA AI**
+
+**Amelia AI** dibuat dan dikembangkan oleh **B41M ( Ibrahim Yusuf )   ** - seorang developer Indonesia yang passionate tentang AI dan teknologi.
+
+**B41M ( Ibrahim Yusuf )   ** memiliki visi untuk membuat teknologi AI accessible bagi semua orang, terutama pengguna Indonesia.
+
+**Fitur Amelia AI:**
+- 🤖 AI Chat dengan Puter.js
+- 🎤 Voice Input/Output
+- 🖼️ Image Analysis
+- 🧠 Neural Network Training
+- 🌐 Multi-language Support (Indonesia & English)
+- 📱 PWA - bisa diinstall di HP
+
+Dibuat dengan 💙 oleh B41M ( Ibrahim Yusuf )    🎯`;
     }
     
     isYesNoQuestion(message) {
@@ -513,7 +625,7 @@ Apa yang ingin Anda tanya hari ini?`;
                 'Alhamdullilah baik. Ada yang bisa saya bantu hari ini?'
             ],
             'siapa kamu': [
-                'Saya Amelia AI, asisten virtual yang dibuat oleh B41M.',
+                'Saya Amelia AI, asisten virtual yang dibuat oleh B41M ( Ibrahim Yusuf )  .',
                 'Halo! Saya Amelia AI, asisten cerdas yang bisa membantu Anda.'
             ],
             'apa itu ai': [
