@@ -1502,6 +1502,12 @@
     <!-- Image Manager -->
     <script src="scripts/image-manager.js"></script>
     
+    <!-- Central Integrator (menghubungkan semua JS) -->
+    <script src="scripts/integrator.js"></script>
+    
+    <!-- Main Application -->
+    <script src="scripts/main.js"></script>
+    
     <!-- Knowledge Base -->
     <script>
         // Knowledge Base untuk Informasi Terkini
@@ -2309,81 +2315,111 @@ Please respond naturally and helpfully, considering the conversation history abo
         });
         
         // Initialize
-        document.addEventListener('DOMContentLoaded', () => {
-            console.log('🚀 Amelia AI - Direct AI Connection Starting...');
+        document.addEventListener('DOMContentLoaded', async () => {
+            console.log('🚀 Amelia AI - Starting...');
             
             // Load conversation history from localStorage
             if (window.AIConnection) {
                 window.AIConnection.loadHistory();
             }
             
-            // Initialize all managers
+            // Initialize all managers via main.js (new unified system)
             initAllManagers();
             
-            window.ameliaAI = new AmeliaAI();
-            
-            console.log('✅ Direct AI Connection Ready!');
-            console.log('🎯 No demo mode - Pure Puter.js AI integration');
+            console.log('✅ Amelia AI Ready!');
             console.log('💾 Conversation memory: Active');
         });
 
-        // ========== INITIALIZE ALL MANAGERS ==========
+        // ========== INITIALIZE ALL MANAGERS (NEW SYSTEM) ==========
         
         async function initAllManagers() {
             console.log('📦 Initializing all managers...');
             
-            // Initialize Voice Manager
+            // Voice Manager
             try {
-                window.voiceManager = new VoiceManager();
-                await window.voiceManager.init();
-                console.log('✅ Voice Manager initialized');
+                if (typeof VoiceManager !== 'undefined') {
+                    window.voiceManager = new VoiceManager();
+                    await window.voiceManager.init();
+                    console.log('✅ Voice Manager initialized');
+                }
             } catch (error) {
                 console.warn('⚠️ Voice Manager failed:', error.message);
             }
             
-            // Initialize Plugin Manager
+            // IndexedDB Manager
             try {
-                window.pluginManager = new PluginManager();
-                await window.pluginManager.init();
-                console.log('✅ Plugin Manager initialized');
+                if (typeof IndexedDBManager !== 'undefined') {
+                    window.ameliaDB = new IndexedDBManager();
+                    await window.ameliaDB.init();
+                    console.log('✅ IndexedDB Manager initialized');
+                }
+            } catch (error) {
+                console.warn('⚠️ IndexedDB Manager failed:', error.message);
+            }
+            
+            // Plugin Manager
+            try {
+                if (typeof PluginManager !== 'undefined') {
+                    window.pluginManager = new PluginManager();
+                    await window.pluginManager.init();
+                    console.log('✅ Plugin Manager initialized');
+                }
             } catch (error) {
                 console.warn('⚠️ Plugin Manager failed:', error.message);
             }
             
-            // Initialize Neural Network Trainer
+            // Neural Network Trainer
             try {
-                window.neuralTrainer = new NeuralNetworkTrainer();
-                await window.neuralTrainer.init();
-                console.log('✅ Neural Trainer initialized');
+                if (typeof NeuralNetworkTrainer !== 'undefined') {
+                    window.neuralTrainer = new NeuralNetworkTrainer();
+                    await window.neuralTrainer.init();
+                    console.log('✅ Neural Trainer initialized');
+                }
             } catch (error) {
                 console.warn('⚠️ Neural Trainer failed:', error.message);
             }
             
-            // Initialize Collaboration Manager
+            // Collaboration Manager
             try {
-                window.collabManager = new CollaborationManager();
-                await window.collabManager.init();
-                console.log('✅ Collaboration Manager initialized');
+                if (typeof CollaborationManager !== 'undefined') {
+                    window.collabManager = new CollaborationManager();
+                    await window.collabManager.init();
+                    console.log('✅ Collaboration Manager initialized');
+                }
             } catch (error) {
                 console.warn('⚠️ Collaboration Manager failed:', error.message);
             }
             
-            // Initialize Academic Tools
+            // Academic Tools
             try {
-                window.academicTools = new AcademicTools();
-                window.academicTools.init();
-                console.log('✅ Academic Tools initialized');
+                if (typeof AcademicTools !== 'undefined') {
+                    window.academicTools = new AcademicTools();
+                    window.academicTools.init();
+                    console.log('✅ Academic Tools initialized');
+                }
             } catch (error) {
                 console.warn('⚠️ Academic Tools failed:', error.message);
             }
             
-            // Initialize Image Manager
+            // Image Manager
             try {
-                window.imageManager = new ImageManager();
-                window.imageManager.init();
-                console.log('✅ Image Manager initialized');
+                if (typeof ImageManager !== 'undefined') {
+                    window.imageManager = new ImageManager();
+                    window.imageManager.init();
+                    console.log('✅ Image Manager initialized');
+                }
             } catch (error) {
                 console.warn('⚠️ Image Manager failed:', error.message);
+            }
+            
+            // Smart Router (Indonesian NLP)
+            try {
+                if (typeof SmartQuestionClassifier !== 'undefined') {
+                    window.smartRouter = new SmartQuestionClassifier();
+                    console.log('✅ Smart Router initialized');
+                }
+            } catch (error) {
+                console.warn('⚠️ Smart Router failed:', error.message);
             }
             
             console.log('📦 All managers initialized!');
