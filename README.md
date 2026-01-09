@@ -206,7 +206,7 @@ Built with modern web technologies for optimal AI integration and user experienc
 
 **Amelia AI Multi-Library Integration** - Making AI accessible through multiple powerful JavaScript libraries.
 
-**Version**: 2.1.0 Multi-AI
+**Version**: 3.0.0 Multi-AI
 **Libraries**: 5 AI Frameworks
 **Status**: Production Ready
 **Creator**: B41M
