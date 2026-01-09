@@ -1487,6 +1487,21 @@
     <!-- IndexedDB Manager -->
     <script src="scripts/indexeddb-manager.js"></script>
     
+    <!-- Plugin Manager -->
+    <script src="scripts/plugin-manager.js"></script>
+    
+    <!-- Neural Network Trainer -->
+    <script src="scripts/neural-trainer.js"></script>
+    
+    <!-- Collaboration Manager -->
+    <script src="scripts/collaboration-manager.js"></script>
+    
+    <!-- Academic Tools -->
+    <script src="scripts/academic-tools.js"></script>
+    
+    <!-- Image Manager -->
+    <script src="scripts/image-manager.js"></script>
+    
     <!-- Knowledge Base -->
     <script>
         // Knowledge Base untuk Informasi Terkini
@@ -1525,14 +1540,16 @@ Guidelines:
         };
     </script>
 
-    <!-- Direct AI Connection -->
+    <!-- Direct AI Connection with Conversation Memory -->
     <script>
-        // Direct AI Connection without fallback
+        // Direct AI Connection with Conversation Memory
         window.AIConnection = {
             available: false,
             initialized: false,
             retryCount: 0,
             maxRetries: 15,
+            conversationHistory: [], // Store conversation history
+            maxHistoryLength: 20, // Maximum number of messages to remember
             
             async initialize() {
                 this.log('🚀 Initializing Direct AI Connection...');
@@ -1605,22 +1622,103 @@ Guidelines:
                     throw new Error('AI Service not available');
                 }
 
-                // Gunakan Knowledge Base untuk konteks yang diperbarui
+                // Add user message to history
+                this.conversationHistory.push({
+                    role: 'user',
+                    content: message,
+                    timestamp: Date.now()
+                });
+
+                // Build conversation context from history
+                const conversationContext = this.buildConversationContext();
+                
+                // Enhanced context with conversation history
                 const enhancedContext = window.KNOWLEDGE_BASE.getEnhancedContext();
                 
                 const contextualMessage = `${enhancedContext}
 
-User Query: "${message}"
+${conversationContext}
 
-Please respond naturally and helpfully to the user's query above, using your up-to-date knowledge.`;
+Current User Query: "${message}"
+
+Please respond naturally and helpfully, considering the conversation history above. If the user is continuing a previous topic, acknowledge that context.`;
 
                 const response = await puter.ai.chat(contextualMessage);
                 
                 if (!response || response.toString().trim().length === 0) {
                     throw new Error('Empty AI response');
                 }
+
+                // Add AI response to history
+                this.conversationHistory.push({
+                    role: 'assistant',
+                    content: response.toString(),
+                    timestamp: Date.now()
+                });
+
+                // Limit history length
+                this.pruneHistory();
+                
+                // Save to localStorage for persistence
+                this.saveHistory();
                 
                 return response.toString();
+            },
+
+            buildConversationContext() {
+                if (this.conversationHistory.length === 0) {
+                    return 'This is the start of a new conversation.';
+                }
+
+                let context = 'Conversation History:\n';
+                
+                // Get last 10 messages (5 exchanges)
+                const recentMessages = this.conversationHistory.slice(-this.maxHistoryLength);
+                
+                recentMessages.forEach(msg => {
+                    const role = msg.role === 'user' ? 'User' : 'Assistant';
+                    context += `${role}: ${msg.content}\n`;
+                });
+
+                return context;
+            },
+
+            pruneHistory() {
+                // Keep only the most recent messages
+                if (this.conversationHistory.length > this.maxHistoryLength * 2) {
+                    // Keep system prompt + last N messages
+                    const systemPrompt = this.conversationHistory[0];
+                    this.conversationHistory = [
+                        systemPrompt,
+                        ...this.conversationHistory.slice(-this.maxHistoryLength)
+                    ];
+                }
+            },
+
+            saveHistory() {
+                try {
+                    localStorage.setItem('amelia-conversation-history', JSON.stringify(this.conversationHistory));
+                } catch (error) {
+                    console.warn('Failed to save conversation history:', error);
+                }
+            },
+
+            loadHistory() {
+                try {
+                    const saved = localStorage.getItem('amelia-conversation-history');
+                    if (saved) {
+                        this.conversationHistory = JSON.parse(saved);
+                        this.log(`📚 Loaded ${this.conversationHistory.length} messages from history`);
+                    }
+                } catch (error) {
+                    console.warn('Failed to load conversation history:', error);
+                }
+            },
+
+            clearHistory() {
+                this.conversationHistory = [];
+                localStorage.removeItem('amelia-conversation-history');
+                this.log('🗑️ Conversation history cleared');
             },
 
             async retryConnection() {
@@ -1638,7 +1736,7 @@ Please respond naturally and helpfully to the user's query above, using your up-
                 this.updateDebugPanel();
             },
 
-updateDebugPanel() {
+            updateDebugPanel() {
                 const content = document.getElementById('debugContent');
                 if (content) {
                     const knowledgeInfo = window.KNOWLEDGE_BASE;
@@ -1647,6 +1745,7 @@ updateDebugPanel() {
                         Initialized: ${this.initialized ? '✅ Yes' : '❌ No'}<br>
                         Retries: ${this.retryCount}/${this.maxRetries}<br>
                         Mode: ${this.available ? '🧠 Direct AI' : '🔄 Connecting...'}<br>
+                        Messages: ${this.conversationHistory.length}<br>
                         <hr style="border: none; border-top: 1px solid #555; margin: 8px 0;">
                         <strong>📚 Knowledge Base</strong><br>
                         Version: ${knowledgeInfo.systemInfo.version}<br>
@@ -2213,11 +2312,110 @@ updateDebugPanel() {
         document.addEventListener('DOMContentLoaded', () => {
             console.log('🚀 Amelia AI - Direct AI Connection Starting...');
             
+            // Load conversation history from localStorage
+            if (window.AIConnection) {
+                window.AIConnection.loadHistory();
+            }
+            
+            // Initialize all managers
+            initAllManagers();
+            
             window.ameliaAI = new AmeliaAI();
             
             console.log('✅ Direct AI Connection Ready!');
             console.log('🎯 No demo mode - Pure Puter.js AI integration');
+            console.log('💾 Conversation memory: Active');
         });
+
+        // ========== INITIALIZE ALL MANAGERS ==========
+        
+        async function initAllManagers() {
+            console.log('📦 Initializing all managers...');
+            
+            // Initialize Voice Manager
+            try {
+                window.voiceManager = new VoiceManager();
+                await window.voiceManager.init();
+                console.log('✅ Voice Manager initialized');
+            } catch (error) {
+                console.warn('⚠️ Voice Manager failed:', error.message);
+            }
+            
+            // Initialize Plugin Manager
+            try {
+                window.pluginManager = new PluginManager();
+                await window.pluginManager.init();
+                console.log('✅ Plugin Manager initialized');
+            } catch (error) {
+                console.warn('⚠️ Plugin Manager failed:', error.message);
+            }
+            
+            // Initialize Neural Network Trainer
+            try {
+                window.neuralTrainer = new NeuralNetworkTrainer();
+                await window.neuralTrainer.init();
+                console.log('✅ Neural Trainer initialized');
+            } catch (error) {
+                console.warn('⚠️ Neural Trainer failed:', error.message);
+            }
+            
+            // Initialize Collaboration Manager
+            try {
+                window.collabManager = new CollaborationManager();
+                await window.collabManager.init();
+                console.log('✅ Collaboration Manager initialized');
+            } catch (error) {
+                console.warn('⚠️ Collaboration Manager failed:', error.message);
+            }
+            
+            // Initialize Academic Tools
+            try {
+                window.academicTools = new AcademicTools();
+                window.academicTools.init();
+                console.log('✅ Academic Tools initialized');
+            } catch (error) {
+                console.warn('⚠️ Academic Tools failed:', error.message);
+            }
+            
+            // Initialize Image Manager
+            try {
+                window.imageManager = new ImageManager();
+                window.imageManager.init();
+                console.log('✅ Image Manager initialized');
+            } catch (error) {
+                console.warn('⚠️ Image Manager failed:', error.message);
+            }
+            
+            console.log('📦 All managers initialized!');
+        }
+
+        // ========== CONVERSATION MANAGEMENT ==========
+        
+        window.clearConversation = function() {
+            if (confirm('Apakah Anda yakin ingin menghapus riwayat percakapan? AI tidak akan mengingat chat sebelumnya.')) {
+                if (window.AIConnection) {
+                    window.AIConnection.clearHistory();
+                    console.log('🗑️ Conversation cleared');
+                }
+                if (window.ameliaAI) {
+                    window.ameliaAI.clearChat();
+                }
+            }
+        };
+
+        window.getConversationStats = function() {
+            if (window.AIConnection) {
+                const count = window.AIConnection.conversationHistory.length;
+                const userMsgs = window.AIConnection.conversationHistory.filter(m => m.role === 'user').length;
+                const aiMsgs = window.AIConnection.conversationHistory.filter(m => m.role === 'assistant').length;
+                return {
+                    totalMessages: count,
+                    userMessages: userMsgs,
+                    aiMessages: aiMsgs
+                };
+            }
+            return null;
+        };
 
         // ========== PWA & SERVICE WORKER INITIALIZATION ==========
         
