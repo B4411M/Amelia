@@ -392,6 +392,181 @@ Apa yang ingin Anda tanya hari ini?`;
     getErrorResponse() {
         return 'Maaf, saya tidak bisa memproses permintaan Anda saat ini. Bisa Anda coba dengan kata-kata yang berbeda?';
     }
+    
+    // ========== INDONESIAN LANGUAGE ENHANCEMENTS ==========
+    
+    /**
+     * Enhanced Indonesian pattern detection
+     */
+    isIndonesianText(text) {
+        const indonesianWords = [
+            'saya', 'kamu', 'dia', 'kami', 'mereka', 'apa', 'siapa', 'dimana', 'kapan',
+            'mengapa', 'bagaimana', 'bisa', 'tidak', 'ya', 'dan', 'atau', 'tapi',
+            'karena', 'jika', 'lalu', 'kemudian', 'sekarang', 'besok', 'kemarin', 'hari',
+            'minggu', 'bulan', 'tahun', 'waktu', 'jam', 'menit', 'detik', 'baik', 'buruk',
+            'cantik', 'jelek', 'besar', 'kecil', 'panas', 'dingin', 'senang', 'sedih',
+            'marah', 'takut', 'cinta', 'benci', 'makan', 'minum', 'tidur', 'bangun',
+            'pergi', 'datang', 'lihat', 'dengar', 'bicara', 'tulis', 'baca', 'kerja',
+            'belajar', 'main', 'jalan', 'lari', 'terbang', 'berenang', 'naik', 'turun'
+        ];
+
+        const words = text.toLowerCase().split(/\s+/);
+        const indonesianWordCount = words.filter(word =>
+            indonesianWords.some(indWord => word.includes(indWord))
+        ).length;
+
+        return indonesianWordCount / words.length > 0.3;
+    }
+
+    /**
+     * Indonesian slang and colloquial handling
+     */
+    normalizeIndonesianSlang(text) {
+        const slangMap = {
+            'gw': 'saya', 'gue': 'saya', 'aku': 'saya', 'sy': 'saya',
+            'lu': 'kamu', 'loe': 'kamu', 'elu': 'kamu',
+            'kmrn': 'kemarin', 'kmaren': 'kemarin',
+            'skrg': 'sekarang', 'skr': 'sekarang',
+            'gak': 'tidak', 'nggak': 'tidak', 'ga': 'tidak', 'tdk': 'tidak',
+            'bs': 'bisa',
+            'mw': 'ingin', 'pingin': 'ingin',
+            'banget': 'sekali', 'bgt': 'sekali', 'bt': 'sekali',
+            'keren': 'bagus', 'mantap': 'bagus',
+            'sip': 'ya', 'yoi': 'ya', 'yups': 'ya',
+            'nih': '', 'dong': '',
+            'gimana': 'bagaimana', 'gmn': 'bagaimana',
+            'dimana': 'di mana', 'dmn': 'di mana',
+            'kpn': 'kapan',
+            'ngapa': 'mengapa', 'knp': 'mengapa',
+            'kenapa': 'mengapa',
+            'makasih': 'terima kasih', 'thanks': 'terima kasih',
+            'plis': 'tolong',
+            'hai': 'halo', 'hey': 'halo'
+        };
+
+        let normalized = text.toLowerCase();
+
+        Object.entries(slangMap).forEach(([slang, formal]) => {
+            const regex = new RegExp(`\\b${slang}\\b`, 'gi');
+            normalized = normalized.replace(regex, formal);
+        });
+
+        return normalized.trim();
+    }
+
+    /**
+     * Indonesian sentiment analysis
+     */
+    analyzeIndonesianSentiment(text) {
+        const positiveWords = [
+            'senang', 'bahagia', 'gembira', 'suka', 'cinta', 'bagus', 'baik', 'keren',
+            'mantap', 'hebat', 'luar biasa', 'fantastis', 'menakjubkan', 'terbaik',
+            'sempurna', 'indah', 'cantik', 'tampan', 'pintar', 'cerdas', 'pandai',
+            'rajin', 'tekun', 'ulet', 'sabar', 'ramah', 'jujur',
+            'alhamdullilah', 'masyaallah', 'subhanallah'
+        ];
+
+        const negativeWords = [
+            'sedih', 'marah', 'kecewa', 'benci', 'dendam', 'buruk', 'jelek', 'parah',
+            'hancur', 'rusak', 'mati', 'sakit', 'nyeri', 'susah', 'sulit',
+            'bingung', 'takut', 'horor', 'menakutkan', 'jahat', 'dengki', 'iri',
+            'bohong', 'malas', 'capek', 'lelah'
+        ];
+
+        const words = this.normalizeIndonesianSlang(text).split(/\s+/);
+        let score = 0;
+        let positiveCount = 0;
+        let negativeCount = 0;
+
+        words.forEach(word => {
+            const cleanWord = word.replace(/[^\w]/g, '').toLowerCase();
+
+            if (positiveWords.some(pw => cleanWord.includes(pw))) {
+                score += 1;
+                positiveCount++;
+            }
+            if (negativeWords.some(nw => cleanWord.includes(nw))) {
+                score -= 1;
+                negativeCount++;
+            }
+        });
+
+        let sentiment = 'neutral';
+        if (score > 0.5) sentiment = 'positive';
+        if (score < -0.5) sentiment = 'negative';
+
+        return {
+            score: score,
+            sentiment: sentiment,
+            confidence: Math.min(Math.abs(score) / Math.max(words.length, 1) * 3, 1),
+            details: { positive: positiveCount, negative: negativeCount }
+        };
+    }
+
+    /**
+     * Indonesian FAQ responses
+     */
+    getIndonesianFAQResponse(query) {
+        const faqMap = {
+            'apa kabar': [
+                'Saya baik-baik saja, terima kasih! Bagaimana dengan Anda?',
+                'Alhamdullilah baik. Ada yang bisa saya bantu hari ini?'
+            ],
+            'siapa kamu': [
+                'Saya Amelia AI, asisten virtual yang dibuat oleh B41M.',
+                'Halo! Saya Amelia AI, asisten cerdas yang bisa membantu Anda.'
+            ],
+            'apa itu ai': [
+                'AI atau Artificial Intelligence adalah kecerdasan buatan yang memungkinkan komputer berpikir dan belajar seperti manusia.'
+            ],
+            'apa yang bisa kamu lakukan': [
+                'Saya bisa membantu Anda dengan berbagai hal: menjawab pertanyaan, memberikan informasi, dan membantu belajar!'
+            ],
+            'terima kasih': [
+                'Sama-sama! Senang bisa membantu Anda.',
+                'Tidak perlu berterima kasih. Saya di sini untuk membantu!'
+            ]
+        };
+
+        const normalizedQuery = this.normalizeIndonesianSlang(query.toLowerCase());
+
+        for (const [key, responses] of Object.entries(faqMap)) {
+            if (normalizedQuery.includes(key)) {
+                return responses[Math.floor(Math.random() * responses.length)];
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Indonesian greeting responses
+     */
+    getIndonesianGreetingResponse(timeBased = true) {
+        const now = new Date();
+        const hour = now.getHours();
+
+        let timeGreeting = '';
+        if (timeBased) {
+            if (hour >= 5 && hour < 12) {
+                timeGreeting = 'selamat pagi';
+            } else if (hour >= 12 && hour < 15) {
+                timeGreeting = 'selamat siang';
+            } else if (hour >= 15 && hour < 18) {
+                timeGreeting = 'selamat sore';
+            } else {
+                timeGreeting = 'selamat malam';
+            }
+        }
+
+        const greetings = [
+            `Halo! ${timeGreeting}! Ada yang bisa saya bantu hari ini?`,
+            `${timeGreeting}! Senang bertemu dengan Anda.`,
+            `Hai! ${timeGreeting}! Saya Amelia AI, siap membantu Anda.`
+        ];
+
+        return greetings[Math.floor(Math.random() * greetings.length)];
+    }
 }
 
 // Export untuk penggunaan global

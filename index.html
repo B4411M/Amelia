@@ -7,6 +7,12 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#667eea">
+    <meta name="description" content="Amelia AI - Asisten AI canggih dengan kemampuan multi-bahasa dan multi-modal">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Amelia AI">
     <style>
         * {
             margin: 0;
@@ -1475,6 +1481,12 @@
     <!-- LangChain.js (LLM Application Framework) -->
     <script src="https://cdn.jsdelivr.net/npm/langchain/langchain.min.js"></script>
     
+    <!-- Voice Manager -->
+    <script src="scripts/voice-manager.js"></script>
+    
+    <!-- IndexedDB Manager -->
+    <script src="scripts/indexeddb-manager.js"></script>
+    
     <!-- Knowledge Base -->
     <script>
         // Knowledge Base untuk Informasi Terkini
@@ -2206,6 +2218,130 @@ updateDebugPanel() {
             console.log('✅ Direct AI Connection Ready!');
             console.log('🎯 No demo mode - Pure Puter.js AI integration');
         });
+
+        // ========== PWA & SERVICE WORKER INITIALIZATION ==========
+        
+        // Register Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', async () => {
+                try {
+                    const registration = await navigator.serviceWorker.register('/sw.js');
+                    console.log('✅ Service Worker registered:', registration.scope);
+                    
+                    // Check for updates
+                    registration.addEventListener('updatefound', () => {
+                        const newWorker = registration.installing;
+                        newWorker.addEventListener('statechange', () => {
+                            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                console.log('🔄 New content available, refresh to update');
+                                // Optionally show update notification to user
+                            }
+                        });
+                    });
+                    
+                } catch (error) {
+                    console.warn('⚠️ Service Worker registration failed:', error);
+                }
+            });
+        }
+
+        // Initialize IndexedDB for offline storage
+        async function initOfflineStorage() {
+            try {
+                window.ameliaDB = new IndexedDBManager();
+                await window.ameliaDB.init();
+                console.log('✅ IndexedDB initialized for offline storage');
+                
+                // Load saved chats
+                if (window.ameliaDB) {
+                    const chats = await window.ameliaDB.getAllChats();
+                    console.log(`📚 Loaded ${chats.length} chat sessions from storage`);
+                }
+                
+            } catch (error) {
+                console.warn('⚠️ IndexedDB initialization failed:', error);
+            }
+        }
+
+        // Initialize offline features
+        initOfflineStorage();
+
+        // Handle offline/online events
+        window.addEventListener('online', () => {
+            console.log('🌐 Back online');
+            if (window.ameliaAI) {
+                window.ameliaAI.updateStatus('online', 'Siap (Online)');
+            }
+        });
+
+        window.addEventListener('offline', () => {
+            console.log('🔌 Gone offline');
+            if (window.ameliaAI) {
+                window.ameliaAI.updateStatus('online', 'Offline Mode');
+            }
+        });
+
+        // Check if app is installable
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            // Prevent Chrome 67 and earlier from automatically showing the prompt
+            e.preventDefault();
+            deferredPrompt = e;
+            console.log('📱 App can be installed');
+            
+            // Optionally show install button to user
+            // showInstallPrompt();
+        });
+
+        // Handle app installed
+        window.addEventListener('appinstalled', () => {
+            console.log('✅ App installed successfully');
+            deferredPrompt = null;
+        });
+
+        // Make functions available globally
+        window.installApp = async function() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                console.log(`📱 User response: ${outcome}`);
+                deferredPrompt = null;
+            }
+        };
+
+        window.clearAllData = async function() {
+            if (confirm('Apakah Anda yakin ingin menghapus semua data? Tindakan ini tidak dapat dibatalkan.')) {
+                if (window.ameliaDB) {
+                    await window.ameliaDB.clearAll();
+                    console.log('🗑️ All data cleared');
+                }
+                if ('serviceWorker' in navigator) {
+                    const registration = await navigator.serviceWorker.ready;
+                    registration.unregister();
+                    console.log('🔌 Service Worker unregistered');
+                }
+                location.reload();
+            }
+        };
+
+        window.exportAllData = async function() {
+            if (window.ameliaDB) {
+                const data = await window.ameliaDB.exportData();
+                const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `amelia-ai-backup-${new Date().toISOString().split('T')[0]}.json`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }
+        };
+
+        console.log('🎉 Amelia AI - All features initialized!');
+        console.log('📱 PWA features: Service Worker & IndexedDB ready');
+        console.log('🌐 Offline support: Enabled');
     </script>
 </body>
 </html>
